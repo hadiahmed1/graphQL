@@ -1,5 +1,12 @@
+
 export const resolvers = {
     Query : {
-        greeting: ()=> "Hello graphQL"
+        job:()=>{
+            return {
+                id: "test-ID",
+                title: "Job Title",
+                description: "Job DESC"
+            }
+        }
     }
 }
