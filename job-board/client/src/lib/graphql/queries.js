@@ -47,10 +47,20 @@ const getCompanyByID = async (id) => {
             id
             name
             description
+            jobs {
+                id
+                title
+                date
+                company {
+                    id
+                    name
+                }
+            }
         }
     }`
 
     const data = await client.request(query);
+    console.log(data)
     return data.company;
 }
 
