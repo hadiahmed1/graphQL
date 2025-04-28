@@ -1,7 +1,15 @@
 import JobList from '../components/JobList';
-import { jobs } from '../lib/fake-data';
-
+import { useState, useEffect } from 'react';
+import {getJobs} from '../lib/graphql/queries.js';
 function HomePage() {
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getJobs();
+      setJobs(data);
+    }
+    getData();
+  }, [])
+  const [jobs, setJobs] = useState([]);
   return (
     <div>
       <h1 className="title">

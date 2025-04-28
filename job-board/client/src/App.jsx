@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Route, Routes } from 'react-router-dom';
 import { getUser } from './lib/auth';
