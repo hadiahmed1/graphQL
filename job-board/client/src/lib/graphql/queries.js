@@ -36,7 +36,6 @@ const getJobByID = async (id) => {
     }
     }`
     const data = await client.request(query);
-    console.log(data);
     return data.job;
 }
 
@@ -44,21 +43,15 @@ const getJobByID = async (id) => {
 const getCompanyByID = async (id) => {
     const query = `#graphql
     query{
-        job(id: ) {
-        company {
+        company(id:"${id}") {
             id
-            description
             name
+            description
         }
-        date
-        description
-        id
-        title
-    }
     }`
 
     const data = await client.request(query);
-    console.log(data);
-    return data.job;
+    return data.company;
 }
-export { getJobs, getJobByID };
+
+export { getJobs, getJobByID, getCompanyByID };

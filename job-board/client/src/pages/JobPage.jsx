@@ -8,7 +8,6 @@ function JobPage() {
   const { jobId } = useParams();
   const [job, setJob] = useState(null);
   useEffect(() => {
-    console.log(jobId)
     getJobByID(jobId).then(job => setJob(job));
   }, [])
   // const job = jobs.find((job) => job.id === jobId);
