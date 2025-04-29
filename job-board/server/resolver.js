@@ -1,8 +1,6 @@
 import { getJobs, getJob, getJobsByCompany, createJob, deleteJob, updateJob } from "./db/jobs.js"
 import { getCompany } from "./db/companies.js";
-import { assertInputObjectType, GraphQLError } from "graphql";
-import { UnauthorizedError } from "express-jwt";
-import { getUser } from "./db/users.js";
+import { GraphQLError } from "graphql";
 
 export const resolvers = {
     Query: {
