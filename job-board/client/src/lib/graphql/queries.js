@@ -1,4 +1,3 @@
-import { GraphQLClient } from "graphql-request";
 import { ApolloClient, ApolloLink, concat, createHttpLink, gql, InMemoryCache } from "@apollo/client";
 import { getAccessToken } from "../auth";
 
