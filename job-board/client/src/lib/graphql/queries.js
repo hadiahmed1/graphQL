@@ -15,15 +15,6 @@ export const apolloClient = new ApolloClient({
     link: concat(authLink, httpLink),
     cache: new InMemoryCache()
 });
-// const client = new GraphQLClient('http://localhost:9000/graphql', {
-//     headers: () => {
-//         const accessToken = getAccessToken();
-//         if (accessToken) {
-//             return { 'Authorization': `Bearer ${accessToken}` };
-//         }
-//         return {};
-//     }
-// });
 
 const getJobs = async () => {
     const query = gql`
@@ -42,9 +33,7 @@ const getJobs = async () => {
     const result = await apolloClient.query({ query, fetchPolicy: "network-only" })
     return result.data.jobs;
 }
-
-const getJobByID = async (id) => {
-    const query = gql`
+export const getJobByIDQuery = gql`
     query JobByID($id: ID!){
         job(id: $id) {
         id
@@ -57,10 +46,7 @@ const getJobByID = async (id) => {
             description
         }
     }
-    }`
-    const result = await apolloClient.query({ query, variables: { id } })
-    return result.data.job;
-}
+}`
 
 export const companyByIDQuery = gql`
     query CompanyByID($id: ID!){
@@ -79,14 +65,8 @@ export const companyByIDQuery = gql`
             }
         }
     }`
-const getCompanyByID = async (id) => {
 
-    const result = await apolloClient.query({ companyByIDQuery, variables: { id } })
-    return result.data.company;
-}
-
-const createJob = async ({ title, description }) => {
-    const mutation = gql`
+export const createJobMutation = gql`
     mutation CreateJob($input: CreateJobInput!) {
         job: createJob(input: $input) {
             id
@@ -101,11 +81,5 @@ const createJob = async ({ title, description }) => {
         }
     }
     `
-    const { data } = await apolloClient.mutate({
-        mutation,
-        variables: { input: { title, description } }
-    })
-    return data.job
-}
 
-export { getJobs, getJobByID, getCompanyByID, createJob };
+export { getJobs };
