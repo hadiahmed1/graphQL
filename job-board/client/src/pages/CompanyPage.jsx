@@ -3,36 +3,18 @@ import JobList from '../components/JobList.jsx';
 import { useQuery } from '@apollo/client';
 import { companyByIDQuery } from '../lib/graphql/queries.js';
 
+const useCompany=(id) => {
+  const {data, loading, error} = useQuery(companyByIDQuery,{
+    variables: {id}
+  });
+  return {company: data?.company, loading, error: Boolean(error)};
+} 
+
 function CompanyPage() {
   const { companyId } = useParams();
-
-  const result = useQuery(companyByIDQuery,{
-    variables: {id: companyId}
-  });
-  console.log(result);
-  const company = result?.data?.company;
-  // const company = result.data.company;
-  // const company =data.company;
-  // const [state, setState] = useState({
-  //   company: null,
-  //   loading: true,
-  //   error: false
-  // });
-  // useEffect(() => {
-  //   (async ()=>{
-  //     try {
-  //       const company = await getCompanyByID(companyId);
-  //       setTimeout(() => {
-  //         setState({company, loading: false, error: false});
-  //       }, 1000);
-  //     } catch (error) {
-  //       console.log(error);
-  //       setState({company: null, loading: false, error: true})
-  //     }
-  //   })();
-  // }, [])
-  if(result.loading) return(<>Loading....</>);
-  if(result.error) return(<>Error: Couldn't load data</>)
+  const {company, loading, error} = useCompany(companyId);
+  if(loading) return(<>Loading....</>);
+  if(error) return(<>Error: Couldn't load data</>)
   return (
     <div>
       <h1 className="title">
