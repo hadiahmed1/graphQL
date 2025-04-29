@@ -1,27 +1,41 @@
 import { useParams } from 'react-router';
-import { getCompanyByID } from '../lib/graphql/queries.js';
+import { getCompanyByID, getJobByID } from '../lib/graphql/queries.js';
 import { useState, useEffect } from 'react';
 import JobList from '../components/JobList.jsx';
 
 function CompanyPage() {
   const { companyId } = useParams();
-  const [company, setCompnay] = useState(null);
+  const [state, setState] = useState({
+    company: null,
+    loading: true,
+    error: false
+  });
   useEffect(() => {
-    // getJobByID(jobId).then(job => setJob(job));
-    getCompanyByID(companyId).then(company => setCompnay(company));
+    (async ()=>{
+      try {
+        const company = await getCompanyByID(companyId);
+        setTimeout(() => {
+          setState({company, loading: false, error: false});
+        }, 2000);
+      } catch (error) {
+        console.log(error);
+        setState({company: null, loading: false, error: true})
+      }
+    })();
   }, [])
-  if(!company) return(<>Loading....</>);
+  if(state.loading) return(<>Loading....</>);
+  if(state.error) return(<>Error: Couldn't load data</>)
   return (
     <div>
       <h1 className="title">
-        {company.name}
+        {state.company.name}
       </h1>
       <div className="box">
-        {company.description}
+        {state.company.description}
       </div>
       <br />
       <strong>Jobs:</strong>
-      <JobList jobs={company.jobs} />
+      <JobList jobs={state.company.jobs} />
     </div>
   );
 }
