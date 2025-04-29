@@ -16,10 +16,10 @@ export const apolloClient = new ApolloClient({
     cache: new InMemoryCache()
 });
 
-const getJobs = async () => {
+const getJobs = async (limit = 10, offset = 0) => {
     const query = gql`
-    query Jobs{
-        jobs {
+    query Jobs($limit: Int, $offset: Int){
+        jobs(limit:$limit,offset: $offset) {
             id
             title
             date
@@ -30,7 +30,7 @@ const getJobs = async () => {
             }
         }
     }`
-    const result = await apolloClient.query({ query, fetchPolicy: "network-only" })
+    const result = await apolloClient.query({ query, variables: { limit, offset }, fetchPolicy: "network-only" })
     return result.data.jobs;
 }
 export const getJobByIDQuery = gql`

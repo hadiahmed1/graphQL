@@ -4,7 +4,7 @@ import {getJobs} from '../lib/graphql/queries.js';
 function HomePage() {
   useEffect(() => {
     const getData = async () => {
-      const data = await getJobs();
+      const data = await getJobs(5,10);
       setJobs(data);
     }
     getData();
