@@ -6,7 +6,7 @@ import { getUser } from "./db/users.js";
 
 export const resolvers = {
     Query: {
-        jobs: () => getJobs(),
+        jobs: (_root, {limit, offset}) => getJobs(limit||10, offset||0),
         job: (_root, args) => getJob(args.id),
         company: async (_root, args) => {
             const company = await getCompany(args.id);
